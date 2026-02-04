@@ -22,13 +22,20 @@ function createElement(inputvalue) {
 
     var spantext = document.createElement("span")
     spantext.className = "showtext"
-    spantext.textContent = inputvalue
+    spantext.textContent = inputvalue.value
 
 
 
     showcard.append(checkbox, spantext)
     showcontainer.append(showcard)
     listcontainer.append(showcontainer)
+
+
+    inputvalue.addEventListener("keydown",(e) => {
+        if(e.key === "Enter") {
+            addbtn.click()
+        }
+    })
 
     checkbox.addEventListener("click", () => {
         if (checkbox.checked == true) {
@@ -39,7 +46,7 @@ function createElement(inputvalue) {
 
 addbtn.addEventListener("click", () => {
     if (inputvalue.value !== "") {
-        createElement(inputvalue.value)
+        createElement(inputvalue)
         inputvalue.value = ""
         // 光标回到输入栏
         // inputvalue.focus() 
