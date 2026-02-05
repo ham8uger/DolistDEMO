@@ -2,6 +2,19 @@ const inputvalue = document.querySelector(".inputvalue")
 const addbtn = document.getElementById("addbtn")
 const listcontainer = document.getElementById("list-container")
 
+
+function getDones(){
+    try{
+        return JSON.parse(localStorage.getItem("dones")) || []
+    } catch (e) {
+        return []
+    }
+}
+
+function saveDones(dones) {
+    localStorage.setItem("dones",JSON.stringify(dones))
+}
+
 // const textnode = document.querySelector("h1")
 // console.log(textnode.dataset.one)
 // console.log(textnode.dataset.two="change this text")
@@ -39,6 +52,13 @@ function createElement(inputvalue) {
 
     checkbox.addEventListener("click", () => {
         if (checkbox.checked == true) {
+            // listcontainer.removeChild(showcontainer)
+            // console.log("完成事项：",spantext.textContent)
+
+            const dones = getDones()
+            dones.push(spantext.textContent)
+            saveDones(dones)
+
             listcontainer.removeChild(showcontainer)
         }
     })
