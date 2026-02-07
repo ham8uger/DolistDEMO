@@ -50,28 +50,12 @@ function renderDones() {
     actions.className = "task-actions";
 
     // 删除（从 localStorage 删除对应 index）
-    const deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.className = "btn btn-outline-danger btn-icon";
-    deleteBtn.setAttribute("aria-label", "Delete");
-    deleteBtn.innerHTML = `<i class="bi bi-trash"></i>`;
-
     deleteBtn.addEventListener("click", () => {
       const arr = getDones();
       arr.splice(index, 1);
       saveDones(arr);
       renderDones(); // 重新渲染保持 index 正确
     });
-
-    actions.append(deleteBtn);
-
-    row.append(left, actions);
-    item.append(row);
-
-    // done 样式标记（用于划线变灰）
-    item.classList.add("done");
-
-    doneContainer.append(item);
   });
 }
 
