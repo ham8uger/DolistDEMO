@@ -1,0 +1,72 @@
+:root{
+  --app-max: 640px;
+}
+
+.app-shell{
+  max-width: var(--app-max);
+}
+
+/* 顶部链接：简洁 */
+.done-link{
+  text-decoration: none;
+}
+.done-link:hover{
+  text-decoration: underline;
+}
+
+/* 让 list-group 每行更像“清爽的任务条” */
+.task-item{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.task-left{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0; /* 让长文本可换行 */
+}
+
+.task-text{
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.task-actions{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+/* checkbox 更好点的点击尺寸 */
+.task-check{
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+/* 删除按钮：轻量但明确 */
+.btn-icon{
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+/* hover 轻反馈，不花哨 */
+.list-group-item:hover{
+  background: rgba(0,0,0,.02);
+}
+
+/* 手机端稍微加大触控 */
+@media (max-width: 576px){
+  .task-item{ padding: 14px 0; }
+  .btn-icon{ width: 40px; height: 40px; }
+  .task-check{ width: 20px; height: 20px; }
+}
