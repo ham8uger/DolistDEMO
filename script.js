@@ -7,46 +7,43 @@ const delbtn = document.querySelector(".delbtn")
 
 todolist = []
 
-addbtn.addEventListener("click",()=>{
+addbtn.addEventListener("click", () => {
     const value = inputvalue.value.trim()
-     
+
     todolist.push(value)
     addTodo(value)
 
     alert(todolist)
-    inputvalue.value=""
-    
+    inputvalue.value = ""
+
 })
 
-function deltodo(value){
-    const index = todolist.indexOf(value)
 
-    if(index !== 1) {
-        todolist.splice(index,1)
-    }
-}
-
-function addTodo(value){
+function addTodo(value) {
     const todoContainer = document.createElement("div")
     todoContainer.classList.add("todo-container")
 
     const checkBox = document.createElement("input")
     checkBox.type = "checkbox"
-    checkBox.id = "check-box"
-
+    checkBox.classList.add("check-box")
     const text = document.createElement("p")
     text.classList.add("todo-text")
     text.textContent = value
 
     const delbtn = document.createElement("button")
     delbtn.classList.add("delbtn")
-    delbtn.textContent="Delete"
+    delbtn.textContent = "Delete"
 
-    delbtn.addEventListener("click",()=>{
+    delbtn.addEventListener("click", () => {
         todoContainer.remove()
         deltodo(value)
     })
 
-    todoContainer.append(checkBox,text,delbtn)
+    todoContainer.append(checkBox, text, delbtn)
     listcontainer.appendChild(todoContainer)
+}
+
+function deltodo(value) {
+    const index = todolist.indexOf(value)
+    index !== -1 ? todolist.splice(index, 1) : alert("Error")
 }
