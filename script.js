@@ -5,7 +5,7 @@ const checkBox = document.querySelector(".check-box")
 const todoText = document.querySelector(".todo-text")
 const delbtn = document.querySelector(".delbtn")
 
-todolist = []
+todolist = ["默认样式"]
 
 addbtn.addEventListener("click", () => {
     const value = inputvalue.value.trim()
@@ -18,6 +18,11 @@ addbtn.addEventListener("click", () => {
 
 })
 
+function renderTodo(){
+    todolist.forEach(e => {
+        addTodo(e)
+    });
+}
 
 function addTodo(value) {
     const todoContainer = document.createElement("div")
@@ -47,3 +52,5 @@ function deltodo(value) {
     const index = todolist.indexOf(value)
     index !== -1 ? todolist.splice(index, 1) : alert("Error")
 }
+
+renderTodo()
