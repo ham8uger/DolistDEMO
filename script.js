@@ -4,18 +4,19 @@ const showbtn = document.getElementById("showbtn")
 const listcontainer = document.querySelector(".list-container")
 const todoText = document.querySelector(".todo-text")
 const delbtn = document.querySelector(".delbtn")
+todolist = ["默认样式"]
 
 
 addbtn.addEventListener("click", () => {
     const value = inputvalue.value.trim()
 
     todolist.push(value)
-    addTodo(value)
+    createCard(value, "add")
 
-    alert(todolist)
     inputvalue.value = ""
 })
 
+let display = true
 showbtn.addEventListener("click", () => {
     readytodo = ["已完成事项"]
 
@@ -26,30 +27,40 @@ showbtn.addEventListener("click", () => {
             readytodo.push(todoText)
         }
     });
-    todolist = [...readytodo]
 
+
+
+    showbtn.textContent = "展示已完成"
+    display = !display
     listcontainer.innerHTML = ""
-    renderTodo()
-
-
+    renderTodo("ready",readytodo)
 })
 
-function renderTodo() {
-    todolist = ["默认样式"]
-    todolist.forEach(e => {
-        addTodo(e)
-    });
+function renderTodo(value, readytodo) {
+
+    if (display) {
+        todolist.forEach(e => {
+            createCard(e, value)
+        });
+    } else {
+        readytodo.forEach(e => {
+            createCard(e, value)
+        });
+    }
 }
 
-function addTodo(value) {
-
-
+function createCard(value, tag) {
     const todoContainer = document.createElement("div")
     todoContainer.classList.add("todo-container")
 
     const checkBox = document.createElement("input")
     checkBox.type = "checkbox"
     checkBox.classList.add("check-box")
+    if (tag !== "add") {
+        checkBox.checked = true
+        checkBox.disabled = true
+    }
+
     const text = document.createElement("p")
     text.classList.add("todo-text")
     text.textContent = value
@@ -77,4 +88,4 @@ function deltodo(value) {
     index !== -1 ? readytodo.splice(ready, 1) : alert("Error")
 }
 
-renderTodo()
+renderTodo("add")
