@@ -18,8 +18,19 @@ addbtn.addEventListener("click", () => {
 
     const checkBox = document.createElement("input")
     checkBox.type = "checkbox"
-    checkBox.addEventListener("change",()=>{
-        (checkBox.checked) ? text.style.textDecoration="line-through" :text.style.textDecoration="none"
+    checkBox.classList.add("check-box")
+
+    checkBox.addEventListener("change", () => {
+        (checkBox.checked) ? text.style.textDecoration = "line-through" : text.style.textDecoration = "none"
+        let checkNum = 0
+        const checkall = document.querySelectorAll(".check-box")
+
+        checkall.forEach(element => {
+            if (element.checked) {
+                checkNum ++
+            }
+        });
+        alert("已完成" + checkNum)
     })
 
     const text = document.createElement("p")
@@ -29,7 +40,10 @@ addbtn.addEventListener("click", () => {
     delbtn.textContent = "Delete"
 
     delbtn.addEventListener("click", () => {
-        todoContainer.remove()
+        if (confirm("确定删除么 ?"))
+            // 
+
+            todoContainer.remove()
     })
 
     //  组合
@@ -40,3 +54,7 @@ addbtn.addEventListener("click", () => {
     inputvalue.value = ""
 })
 
+// Enter 添加
+inputvalue.addEventListener("keydown", (e) => {
+    if (e.key === "Enter")  addbtn.click() 
+})
