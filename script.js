@@ -3,6 +3,12 @@ const inputvalue = document.getElementById("inputvalue")
 const addbtn = document.getElementById("addbtn")
 const listcontainer = document.querySelector(".list-container")
 
+// 建立数据对象
+let nextId = 1
+let todos = [{ id: nextId++, text: "待办事项展示", done: false }]
+
+
+
 //  点击添加
 addbtn.addEventListener("click", () => {
 
@@ -12,43 +18,9 @@ addbtn.addEventListener("click", () => {
     // 如果为空就不添加
     if (value === "") return
 
-    //  创建一条 todo
-    const todoContainer = document.createElement("div")
-    todoContainer.classList.add("todo-container")
-
-    const checkBox = document.createElement("input")
-    checkBox.type = "checkbox"
-    checkBox.classList.add("check-box")
-
-    checkBox.addEventListener("change", () => {
-        (checkBox.checked) ? text.style.textDecoration = "line-through" : text.style.textDecoration = "none"
-        let checkNum = 0
-        const checkall = document.querySelectorAll(".check-box")
-
-        checkall.forEach(element => {
-            if (element.checked) {
-                checkNum ++
-            }
-        });
-        alert("已完成" + checkNum)
-    })
-
-    const text = document.createElement("p")
-    text.textContent = value
-
-    const delbtn = document.createElement("button")
-    delbtn.textContent = "Delete"
-
-    delbtn.addEventListener("click", () => {
-        if (confirm("确定删除么 ?"))
-            // 
-
-            todoContainer.remove()
-    })
-
-    //  组合
-    todoContainer.append(checkBox, text, delbtn)
-    listcontainer.appendChild(todoContainer)
+    todos.push({ id: nextId++, text: value, done: false })
+    savetodos()
+    render()
 
     //  清空输入框
     inputvalue.value = ""
@@ -56,5 +28,77 @@ addbtn.addEventListener("click", () => {
 
 // Enter 添加
 inputvalue.addEventListener("keydown", (e) => {
-    if (e.key === "Enter")  addbtn.click() 
+    if (e.key === "Enter") addbtn.click()
 })
+
+function render() {
+    listcontainer.innerHTML = ""
+    const checkNum = todos.filter(t => t.done).length
+    console.log("已完成" + checkNum)
+
+    todos.forEach((todo, index) => {
+        //  创建一条 todo
+        const todoContainer = document.createElement("div")
+        todoContainer.classList.add("todo-container")
+        todoContainer.dataset.id = todo.id
+
+        const checkBox = document.createElement("input")
+        checkBox.type = "checkbox"
+        checkBox.classList.add("check-box")
+        checkBox.checked = todo.done
+        checkBox.addEventListener("change", () => {
+            const id = Number(todoContainer.dataset.id)
+
+            // todos[index].done = checkBox.checked
+            // 更新数据
+            // 重新渲染数据
+            // id 检查
+            const item = todos.find(t => t.id === id)
+            if (item) {
+                item.done = checkBox.checked
+                render()
+            }
+        })
+
+        const text = document.createElement("p")
+        text.textContent = todo.text
+        text.style.textDecoration = todo.done ? "line-through" : "none"
+
+        const delbtn = document.createElement("button")
+        delbtn.textContent = "Delete"
+        delbtn.addEventListener("click", () => {
+            if (!confirm("确定删除么 ?")) return;
+            // todos.splice(index, 1)
+            // render()
+            // 根据id删除
+            const i = todos.findIndex(t => t.id === todo.id)
+            // i 是当前数据在todos的实时位置
+
+
+            if (i != -1) {
+                todos.splice(i, 1)
+                render()
+            }
+        })
+        //  组合
+        todoContainer.append(checkBox, text, delbtn)
+        listcontainer.appendChild(todoContainer)
+    })
+}
+
+// 本地化
+function savetodos() {
+    localStorage.setItem("todos", JSON.stringify(todos))
+    localStorage.setItem("nextid", String(nextId))
+}
+// 刷新读取
+function loadTodos() {
+    const saved = localStorage.getItem("todos")
+    const savedNextId = localStorage.getItem("nextid")
+
+    if (saved) todos = JSON.parse(saved)
+    if (savedNextId) nextId = Number(savedNextId)
+}
+
+loadTodos()
+render()
