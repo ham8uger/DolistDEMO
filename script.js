@@ -7,20 +7,8 @@ const listcontainer = document.querySelector(".list-container")
 
 // 建立数据对象
 let nextId = 1
-let todos = [{ id: nextId++, text: "待办事项展示", done: false }]
+let todos = [{ id: nextId++, text: String, done: false }]
 
-// 全部选择
-allbtn.addEventListener("click", () => {
-    const alldone = todos.every(t => t.done)
-    // every -- 所有的元素检查都是 true - t.done
-
-    todos.forEach(todo => {
-        todo.done = !alldone
-    });
-
-    savetodos()
-    render()
-})
 
 clearbtn.addEventListener("click", () => {
     todos = todos.filter(todo => !todo.done)
@@ -29,16 +17,10 @@ clearbtn.addEventListener("click", () => {
     savetodos()
     render()
 })
-
-function nodoNum() {
-    // 未完成数量
-    const notodoNum = document.querySelector(".notodoNum")
-    if(!notodoNum) return
-
-    const nodoNum = todos.filter(t => !t.done).length
-    notodoNum.textContent = "未完成数量" + nodoNum
-}
-
+// Enter 添加
+inputvalue.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") addbtn.click()
+})
 //  点击添加
 addbtn.addEventListener("click", () => {
 
@@ -57,11 +39,31 @@ addbtn.addEventListener("click", () => {
     inputvalue.value = ""
 })
 
-// Enter 添加
-inputvalue.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") addbtn.click()
+// 获取未完成的任务数量
+function nodoNum() {
+    // 未完成数量
+    const notodoNum = document.querySelector(".notodoNum")
+    if(!notodoNum) return
+
+    const nodoNum = todos.filter(t => !t.done).length
+    notodoNum.textContent = "未完成数量" + nodoNum
+}
+
+// 全部选择
+allbtn.addEventListener("click", () => {
+    const alldone = todos.every(t => t.done)
+    // every -- 所有的元素检查都是 true - t.done
+
+    todos.forEach(todo => {
+        todo.done = !alldone
+    });
+
+    savetodos()
+    render()
 })
 
+
+// 渲染页面
 function render() {
     listcontainer.innerHTML = ""
 
